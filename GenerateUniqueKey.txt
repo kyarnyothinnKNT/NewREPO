@@ -1,0 +1,17 @@
+public string GenerateUniqueNumber(int length, CounterEntities db)
+        {
+            string randomNumber = PKI.GenerateNumber(length);            
+            string generatedUniqueNumber = "";
+
+            generatedUniqueNumber = "62" + "0" + this.TownshipID + randomNumber;
+
+            int ledgerCount = db.Ledgers.Where(l => l.UniqueID == generatedUniqueNumber && l.TownshipID == this.TownshipID).ToList().Count();
+
+            if (ledgerCount > 0)
+            {
+                GenerateUniqueNumber(length, db);
+            }
+            return generatedUniqueNumber;
+        }
+
+
